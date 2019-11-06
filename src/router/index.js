@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import OpenQuiz from '../views/OpenProject.vue'
+import Editor from '../views/Editor.vue'
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,9 @@ const routes = [
   },
   {
     path: '/open', component: OpenQuiz
+  },
+  {
+    path: '/editor', component: Editor 
   }
 ]
 
