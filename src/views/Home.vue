@@ -1,23 +1,19 @@
 <template>
-  <v-container fluid fill-height>
-    <v-layout align-center justify-center>
-      <v-flex xs12 sm6 md4>
-        <v-row>
-          <v-col cols="12" sm="4" md="2">
-            <v-btn fab large class="mb-2" href="/Editor">
+  <v-container fill-height class="grey lighten-3">
+        <v-row >
+          <v-col xs="8" sm="4" md8 class="red lighten-5 d-flex flex-column justify-center align-center">
+            <v-btn fab large class="mb-2" href="/editor">
               <v-icon>mdi-plus</v-icon>
             </v-btn>
             <p>Создать</p>
           </v-col>
-          <v-col cols="12" sm="4" md="2">
-            <v-btn fab large class="mb-2">
+          <v-col xs="4" sm="4" md8 class="d-flex flex-column justify-center align-center">
+            <v-btn fab large class="mb-2" href="">
               <v-icon>mdi-plus</v-icon>
             </v-btn>
             <p>Редактировать</p>
           </v-col>
         </v-row>
-      </v-flex>
-    </v-layout>
   </v-container>
 </template>
 
