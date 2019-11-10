@@ -1,8 +1,8 @@
 <template>
   <v-app id="app">
-    <v-content>
+    <v-content fill-height fluid>
       <app-header />
-      <router-view />
+      <router-view style="height:90%;"></router-view>
     </v-content>
   </v-app>
 </template>
