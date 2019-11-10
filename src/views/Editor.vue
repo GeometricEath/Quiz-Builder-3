@@ -1,9 +1,9 @@
 <template>
-  <v-content fill-height class="d-flex align-end justify-center">
+  <v-content fill-height class="align-end justify-center">
     <v-row>
       <v-col>
         <question-list></question-list>
-        <question-form class="justify-center align-end"></question-form>
+        <question-form class="justify-center"></question-form>
       </v-col>
     </v-row>
   </v-content>
