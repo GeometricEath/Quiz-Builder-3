@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-// import OpenProject from '../views/OpenProject.vue'
+// import OpenQuiz from '../views/OpenProject.vue'
 import Editor from '../views/Editor.vue'
 
 Vue.use(VueRouter)
@@ -21,7 +21,7 @@ const routes = [
   //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   // },
   // {
-  //   path: '/open', component: OpenProject
+  //   path: '/open', component: OpenQuiz
   // },
   {
     path: '/editor', component: Editor 
