@@ -9,10 +9,10 @@
             </v-expansion-panel-header>
             <v-expansion-panel-content>
               <v-row justify="center">
-                <v-col cols="12" xs="12" md="3" class="my-auto pr-0">
+                <v-col cols="12" xs="12" md="3" class="my-auto grey lighten-3">
                   <v-img src="@/assets/logo.png" max-width="180" contain class="mx-auto"></v-img>
                 </v-col>
-                <v-col xs="12" md="9">
+                <v-col xs="12" md="9" class="pl-2">
                   <v-list disabled dense>
                     <v-list-item-group v-model="quize.trueAnswer" color="primary">
                       <v-list-item v-for="(answer, i) in quize.answers" :key="i">
