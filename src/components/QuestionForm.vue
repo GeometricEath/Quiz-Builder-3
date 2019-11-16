@@ -102,7 +102,6 @@ export default {
       this.quize.trueAnswer = "";
     },
     checked(pyload) {
-      console.log(pyload);
       this.quize.trueAnswer = pyload;
     }
   }
