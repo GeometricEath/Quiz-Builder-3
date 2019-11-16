@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-col xs="12" sm="10" md="6">
+    <v-col xs="12" sm="10" md="8" lg="6">
       <v-expansion-panels v-model="panel">
         <v-expansion-panel expand focusable>
           <v-expansion-panel-header>
