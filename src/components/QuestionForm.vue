@@ -1,3 +1,4 @@
+
 <template>
   <v-row>
     <v-col xs="12" sm="10" md="8" lg="6">
@@ -41,8 +42,17 @@
                       lazy-validation
                     >
                       <template v-slot:append>
-                        <v-icon>mdi-plus</v-icon>
-                        <!-- <v-checkbox class="ma-0 pt-2" dense v-model="quize.trueAnswer" :value="`answer${id}`"></v-checkbox> -->
+                        <v-icon
+                          v-if="quize.trueAnswer === id"
+                          @click="checked(id)"
+                          color="primary"
+                          style="cursor:pointer;"
+                        >mdi-checkbox-marked-circle</v-icon>
+                        <v-icon
+                          v-else
+                          @click="checked(id)"
+                          style="cursor:pointer;"
+                        >mdi-checkbox-blank-circle-outline</v-icon>
                       </template>
                     </v-textarea>
                     <v-card-actions class="d-flex align-center justify-center">
@@ -59,6 +69,7 @@
   </v-row>
 </template>
 <script>
+/* eslint-disable no-console */
 export default {
   data() {
     return {
@@ -67,7 +78,7 @@ export default {
         image: undefined,
         question: "",
         answers: [],
-        trueAnswer: null
+        trueAnswer: ""
       },
       quesitonLenght: [
         v => !!v || "Викторина без вопросов невозможна",
@@ -88,6 +99,11 @@ export default {
   methods: {
     add() {
       this.$refs.addQuestion.reset();
+      this.quize.trueAnswer = "";
+    },
+    checked(pyload) {
+      console.log(pyload);
+      this.quize.trueAnswer = pyload;
     }
   }
 };
