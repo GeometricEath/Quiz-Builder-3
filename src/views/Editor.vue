@@ -1,8 +1,5 @@
 <template>
-  <!-- <v-content>
-    <app-header></app-header> -->
-     
-  <v-content fill-height class="align-end justify-center">
+  <v-content fill-height class="justify-center">
     <v-row>
       <v-col>
         <question-list></question-list>
@@ -13,15 +10,13 @@
 </template>
 
 <script>
-import AppHeader from '../components/AppHeader.vue'
 import QuestionList from "@/components/QuestionList.vue";
 import QuestionForm from "@/components/QuestionForm.vue";
 
 export default {
   components: {
-    AppHeader,
     QuestionList,
-    QuestionForm,
+    QuestionForm
   }
 };
 </script>
