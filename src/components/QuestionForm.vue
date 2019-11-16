@@ -78,7 +78,7 @@ export default {
         image: undefined,
         question: "",
         answers: [],
-        trueAnswer: ""
+        trueAnswer: -1
       },
       quesitonLenght: [
         v => !!v || "Викторина без вопросов невозможна",
@@ -93,13 +93,13 @@ export default {
   },
   computed: {
     valid() {
-      return this.quize.question && this.quize.trueAnswer ? true : false;
+      return this.quize.question && this.quize.trueAnswer >= 0 ? true : false;
     }
   },
   methods: {
     add() {
       this.$refs.addQuestion.reset();
-      this.quize.trueAnswer = "";
+      this.quize.trueAnswer = -1;
     },
     checked(pyload) {
       this.quize.trueAnswer = pyload;
