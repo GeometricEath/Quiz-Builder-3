@@ -28,7 +28,21 @@
                       rows="1"
                       auto-grow
                       lazy-validation
-                    ></v-textarea>
+                    >
+                      <template v-slot:prepend>
+                        <v-icon
+                          v-if="quize.image"
+                          @click="addImage"
+                          style="cursor:pointer;"
+                        >mdi-camera-plus</v-icon>
+                        <v-icon
+                          v-else
+                          color="primary"
+                          @click="addImage"
+                          style="cursor:pointer;"
+                        >mdi-camera-plus</v-icon>
+                      </template>
+                    </v-textarea>
                     <v-textarea
                       v-model="quize.answers[id]"
                       v-for="(answer, id) in 4"
@@ -41,7 +55,7 @@
                       auto-grow
                       lazy-validation
                     >
-                      <template v-slot:append>
+                      <template v-slot:prepend>
                         <v-icon
                           v-if="quize.trueAnswer === id"
                           @click="checked(id)"
@@ -101,6 +115,7 @@ export default {
       this.$refs.addQuestion.reset();
       this.quize.trueAnswer = -1;
     },
+    addImage() {},
     checked(pyload) {
       this.quize.trueAnswer = pyload;
     }
