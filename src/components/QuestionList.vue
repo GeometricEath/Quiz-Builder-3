@@ -12,17 +12,16 @@
                 <v-col cols="12" xs="12" md="3" class="my-auto grey lighten-3">
                   <v-img src="@/assets/logo.png" max-width="180" contain class="mx-auto"></v-img>
                 </v-col>
-                <v-col xs="12" md="9" class="pl-2">
+                <v-col xs="12" md="9" class="px-0 px-md-2">
                   <v-list disabled dense>
                     <v-list-item-group v-model="quize.trueAnswer" color="primary">
-                      <v-list-item v-for="(answer, i) in quize.answers" :key="i">
+                      <v-list-item v-for="(answer, i) in quize.answers" :key="i" class="px-2">
                         <v-list-item-icon class="mr-2 my-auto">
                           <v-icon v-if="quize.trueAnswer==i">mdi-checkbox-marked-circle</v-icon>
                           <v-icon v-else>mdi-checkbox-blank-circle-outline</v-icon>
                         </v-list-item-icon>
                         <v-list-item-content>
-                          <p class="my-auto">{{answer}}</p>
-                          <!-- <v-list-item-title v-text="answer"></v-list-item-title> -->
+                          <p class="my-auto text-sm-justify">{{answer}}</p>
                         </v-list-item-content>
                       </v-list-item>
                     </v-list-item-group>
