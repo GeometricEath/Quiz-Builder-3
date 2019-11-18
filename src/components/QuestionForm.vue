@@ -26,6 +26,7 @@
                       accept="image/*"
                       label="Добавить изображение"
                       prepend-icon="mdi-camera-plus"
+                      small-chips
                     ></v-file-input>
                     <v-textarea
                       v-model="quize.questionText"
