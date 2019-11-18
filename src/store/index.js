@@ -36,7 +36,6 @@ export default new Vuex.Store({
   },
   mutations: {
     ADD_QUESTION (state, payload){
-      console.log(payload);
       state.questions.push(payload)
     }
   },
