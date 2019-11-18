@@ -19,7 +19,7 @@
                 <v-row no-gutters justify="center">
                   <v-col>
                     <v-textarea
-                      v-model="quize.question"
+                      v-model="quize.questionText"
                       :rules="quesitonLenght"
                       :counter="120"
                       name="question"
@@ -89,8 +89,8 @@ export default {
     return {
       panel: 0,
       quize: {
-        image: undefined,
-        question: "",
+        image: "",
+        questionText: "",
         answers: [],
         trueAnswer: -1
       },
@@ -107,13 +107,21 @@ export default {
   },
   computed: {
     valid() {
-      return this.quize.question && this.quize.trueAnswer >= 0 ? true : false;
+      return this.quize.questionText && this.quize.trueAnswer >= 0
+        ? true
+        : false;
     }
   },
   methods: {
     add() {
+      this.$store.commit("ADD_QUESTION", this.quize);
+      this.quize = {
+        image: "",
+        questionText: "",
+        answers: [],
+        trueAnswer: -1
+      };
       this.$refs.addQuestion.reset();
-      this.quize.trueAnswer = -1;
     },
     addImage() {},
     checked(pyload) {

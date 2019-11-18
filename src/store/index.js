@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import Vue from 'vue'
 import Vuex from 'vuex'
 
@@ -33,6 +35,10 @@ export default new Vuex.Store({
     ]
   },
   mutations: {
+    ADD_QUESTION (state, payload){
+      console.log(payload);
+      state.questions.push(payload)
+    }
   },
   actions: {
   },
