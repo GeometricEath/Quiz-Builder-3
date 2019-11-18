@@ -17,13 +17,20 @@
             <v-form ref="addQuestion">
               <v-container>
                 <v-row no-gutters justify="center">
+                  <v-col v-if="quize.image" cols="12" class="my-auto grey lighten-3 py-4">
+                    <v-img :src="quize.image" max-width="280" contain class="mx-auto"></v-img>
+                  </v-col>
                   <v-col>
-                    <v-img :src="quize.image"></v-img>
-                    <v-file-input @change="addImage" label="File input"></v-file-input>
+                    <v-file-input
+                      @change="addImage"
+                      label="Добавить изображение"
+                      prepend-icon="mdi-camera-plus"
+                    ></v-file-input>
                     <v-textarea
                       v-model="quize.questionText"
                       :rules="quesitonLenght"
                       :counter="120"
+                      class="ml-8"
                       name="question"
                       label="Вопрос"
                       outlined
@@ -31,7 +38,7 @@
                       auto-grow
                       lazy-validation
                     >
-                      <template v-slot:prepend>
+                      <!-- <template v-slot:prepend>
                         <v-icon
                           v-if="quize.image"
                           @click="addImage"
@@ -43,7 +50,7 @@
                           @click="addImage"
                           style="cursor:pointer;"
                         >mdi-camera-plus</v-icon>
-                      </template>
+                      </template>-->
                     </v-textarea>
                     <v-textarea
                       v-model="quize.answers[id]"
@@ -126,8 +133,8 @@ export default {
       };
       this.$refs.addQuestion.reset();
     },
-    clearForm(){
-       this.quize = {
+    clearForm() {
+      this.quize = {
         image: "",
         questionText: "",
         answers: [],
@@ -143,6 +150,8 @@ export default {
           this.quize.image = reader.result;
         };
         reader.readAsDataURL(file);
+      } else {
+        this.quize.image = "";
       }
     },
     checked(pyload) {
