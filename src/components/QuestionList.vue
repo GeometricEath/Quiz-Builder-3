@@ -4,8 +4,8 @@
       <v-col xs="12" sm="10" md="8" lg="6">
         <v-expansion-panels>
           <v-expansion-panel
-            v-for="(question, id) in questions"
-            :key="id"
+            v-for="(question) in questions"
+            :key="question.id"
             dark
             expand
             focusable
@@ -36,6 +36,9 @@
                   </v-list>
                 </v-col>
               </v-row>
+            <div class="float-right">
+              <v-icon :data-id="question.id" @click="deleteQuestion" style="cursor: pointer;">mdi-trash-can-outline</v-icon>
+            </div>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -46,13 +49,17 @@
 <script>
 export default {
   data() {
-    return {
-    };
+    return {};
   },
   computed: {
     questions() {
       return this.$store.getters.questions;
     }
-  }
+  },
+  methods: {
+    deleteQuestion(evt) {
+      this.$store.commit("DELETE_QUESTION", evt.target.dataset.id)
+    }
+  },
 };
 </script>

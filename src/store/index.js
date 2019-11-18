@@ -9,6 +9,7 @@ export default new Vuex.Store({
   state: {
     questions: [
       {
+        id:0,
         image: require('@/assets/logo.png'),
         questionText:
           "Какое из ниже перечисленных утверждений верно? Какое из ниже перечисленных утверждений верно? Какое из ниже перечисленных утверждений верно?",
@@ -21,6 +22,7 @@ export default new Vuex.Store({
         trueAnswer: 3
       },
       {
+        id:1,
         image: undefined,
         questionText:
           "Какое из ниже перечисленных утверждений верно? Какое из ниже перечисленных утверждений верно? Какое из ниже перечисленных утверждений верно?",
@@ -36,8 +38,13 @@ export default new Vuex.Store({
   },
   mutations: {
     ADD_QUESTION (state, payload){
+      payload.id = state.questions.length
       state.questions.push(payload)
-    }
+    },
+    DELETE_QUESTION (state, id){
+      state.questions.splice(id, 1)
+      // console.log(payload.target.dataset.id)
+    },
   },
   actions: {
   },
