@@ -18,6 +18,8 @@
               <v-container>
                 <v-row no-gutters justify="center">
                   <v-col>
+                    <v-img :src="quize.image"></v-img>
+                    <v-file-input @change="addImage" label="File input"></v-file-input>
                     <v-textarea
                       v-model="quize.question"
                       :rules="quesitonLenght"
@@ -115,7 +117,16 @@ export default {
       this.$refs.addQuestion.reset();
       this.quize.trueAnswer = -1;
     },
-    addImage() {},
+    addImage(file) {
+      if (file && file.type === "image/jpeg") {
+        let reader = new FileReader();
+        console.log(file);
+        reader.onload = () => {
+          this.quize.image = reader.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    },
     checked(pyload) {
       this.quize.trueAnswer = pyload;
     }
