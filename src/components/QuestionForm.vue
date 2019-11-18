@@ -23,6 +23,7 @@
                   <v-col>
                     <v-file-input
                       @change="addImage"
+                      accept="image/*"
                       label="Добавить изображение"
                       prepend-icon="mdi-camera-plus"
                     ></v-file-input>
