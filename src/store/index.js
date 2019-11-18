@@ -43,7 +43,6 @@ export default new Vuex.Store({
     },
     DELETE_QUESTION (state, id){
       state.questions.splice(id, 1)
-      // console.log(payload.target.dataset.id)
     },
   },
   actions: {
