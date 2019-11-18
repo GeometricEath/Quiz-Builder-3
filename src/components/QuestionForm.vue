@@ -147,7 +147,6 @@ export default {
     addImage(file) {
       if (file && file.type === "image/jpeg") {
         let reader = new FileReader();
-        console.log(file);
         reader.onload = () => {
           this.quize.image = reader.result;
         };
