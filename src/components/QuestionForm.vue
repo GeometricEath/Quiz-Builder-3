@@ -21,7 +21,7 @@
                     <v-img :src="quize.image"></v-img>
                     <v-file-input @change="addImage" label="File input"></v-file-input>
                     <v-textarea
-                      v-model="quize.question"
+                      v-model="quize.questionText"
                       :rules="quesitonLenght"
                       :counter="120"
                       name="question"
@@ -73,6 +73,7 @@
                     </v-textarea>
                     <v-card-actions class="d-flex align-center justify-center">
                       <v-btn :disabled="!valid" @click="add" color="primary">Добавить</v-btn>
+                      <v-btn @click="clearForm" class="lime lighten-4">Очистить</v-btn>
                     </v-card-actions>
                   </v-col>
                 </v-row>
@@ -91,8 +92,8 @@ export default {
     return {
       panel: 0,
       quize: {
-        image: undefined,
-        question: "",
+        image: "",
+        questionText: "",
         answers: [],
         trueAnswer: -1
       },
@@ -109,13 +110,30 @@ export default {
   },
   computed: {
     valid() {
-      return this.quize.question && this.quize.trueAnswer >= 0 ? true : false;
+      return this.quize.questionText && this.quize.trueAnswer >= 0
+        ? true
+        : false;
     }
   },
   methods: {
     add() {
+      this.$store.commit("ADD_QUESTION", this.quize);
+      this.quize = {
+        image: "",
+        questionText: "",
+        answers: [],
+        trueAnswer: -1
+      };
       this.$refs.addQuestion.reset();
-      this.quize.trueAnswer = -1;
+    },
+    clearForm(){
+       this.quize = {
+        image: "",
+        questionText: "",
+        answers: [],
+        trueAnswer: -1
+      };
+      this.$refs.addQuestion.reset();
     },
     addImage(file) {
       if (file && file.type === "image/jpeg") {
