@@ -71,6 +71,7 @@
                     </v-textarea>
                     <v-card-actions class="d-flex align-center justify-center">
                       <v-btn :disabled="!valid" @click="add" color="primary">Добавить</v-btn>
+                      <v-btn @click="clearForm" class="lime lighten-4">Очистить</v-btn>
                     </v-card-actions>
                   </v-col>
                 </v-row>
@@ -116,6 +117,15 @@ export default {
     add() {
       this.$store.commit("ADD_QUESTION", this.quize);
       this.quize = {
+        image: "",
+        questionText: "",
+        answers: [],
+        trueAnswer: -1
+      };
+      this.$refs.addQuestion.reset();
+    },
+    clearForm(){
+       this.quize = {
         image: "",
         questionText: "",
         answers: [],
