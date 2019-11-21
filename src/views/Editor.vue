@@ -17,7 +17,7 @@ export default {
   components: {
     QuestionList,
     QuestionForm
-  }
+  },
 };
 </script>
 

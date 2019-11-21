@@ -56,7 +56,6 @@
   </v-content>
 </template>
 <script>
-/* eslint-disable no-console */
 const defultImage = require("@/assets/no-image-icon.png");
 export default {
   data() {

@@ -14,16 +14,15 @@
 </template>
 
 <script>
-import { saveFile } from "@/modules/fileSistem.js";
 export default {
   data() {
     return {};
   },
   methods: {
     save() {
-    let quizData = this.$store.getters.questions;
-
-      saveFile(quizData , "Тест генератора xml");
+      this.$bus.emit("saveProject");
+      // let quizData = this.$store.getters.questions;
+      // saveFile(quizData, "Тест генератора xml");
     }
   }
 };

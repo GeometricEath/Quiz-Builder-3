@@ -1,9 +1,6 @@
-/* eslint-disable no-console */
-
 import builder from "xmlbuilder";
 
 function createQuize(questions, quizName) {
-    console.dir(questions);
     let obj = builder
         .create("root", { version: "1.0", encoding: "windows-1251" })
         .ele("questions")
@@ -14,7 +11,7 @@ function createQuize(questions, quizName) {
             {
                 'answer': questions[i].trueAnswer,
                 'name': 'Question' + questions[i].id,
-                'timeout': questions[i].timeout||20,
+                'timeout': questions[i].timeout || 20,
             })
             .ele('text', questions[i].questionText).up()
             .ele('picture', questions[i].imagePath).up()
@@ -46,4 +43,4 @@ function createQuize(questions, quizName) {
     return obj.end({ pretty: true });
 }
 
-export {createQuize}
+export { createQuize }

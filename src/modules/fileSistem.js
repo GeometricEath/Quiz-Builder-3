@@ -1,15 +1,18 @@
 /* eslint-disable no-console */
 import { createQuize } from "@/modules/QuizConverter";
+import { EventBus } from '../plugins/EvenBus';
 
 // import parser from './xmlparser'
 // const mime = require('mime/lite');
 
+EventBus.on('saveProject', saveProject);
 
-function saveProject() {
-
+function saveProject(data) {
+    // let data = EventBus.$store.getters.questions;
+    this.saveFile(data);
 }
 function saveFile(quizData, quizName) {
-    let xml = createQuize( quizData, quizName);
+    let xml = createQuize(quizData, quizName);
     const MIME_TYPE = "text/xml";
     let blob = new Blob([xml], { type: MIME_TYPE });
     let blobURL = window.URL.createObjectURL(blob);
