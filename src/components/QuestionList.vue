@@ -72,7 +72,6 @@ export default {
       this.$store.commit("DELETE_QUESTION", evt.target.dataset.id);
     },
     replaceMissingImage(img) {
-      console.log(img + " " + img != "");
       if (img === "") {
         return defultImage;
       } else return img;
