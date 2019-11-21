@@ -18,7 +18,12 @@
             <v-expansion-panel-content>
               <v-row justify="center">
                 <v-col cols="12" xs="12" md="3" class="my-auto grey lighten-3">
-                  <v-img :src="question.image" max-width="180" contain class="mx-auto"></v-img>
+                  <v-img
+                    :src="replaceMissingImage(question.image)"
+                    max-width="180"
+                    contain
+                    class="mx-auto"
+                  ></v-img>
                 </v-col>
                 <v-col xs="12" md="9" class="px-0 px-md-2">
                   <v-list disabled dense>
@@ -36,9 +41,13 @@
                   </v-list>
                 </v-col>
               </v-row>
-            <div class="float-right">
-              <v-icon :data-id="question.id" @click="deleteQuestion" style="cursor: pointer;">mdi-trash-can-outline</v-icon>
-            </div>
+              <div class="float-right">
+                <v-icon
+                  :data-id="question.id"
+                  @click="deleteQuestion"
+                  style="cursor: pointer;"
+                >mdi-trash-can-outline</v-icon>
+              </div>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -47,6 +56,8 @@
   </v-content>
 </template>
 <script>
+/* eslint-disable no-console */
+const defultImage = require("@/assets/no-image-icon.png");
 export default {
   data() {
     return {};
@@ -58,8 +69,14 @@ export default {
   },
   methods: {
     deleteQuestion(evt) {
-      this.$store.commit("DELETE_QUESTION", evt.target.dataset.id)
+      this.$store.commit("DELETE_QUESTION", evt.target.dataset.id);
+    },
+    replaceMissingImage(img) {
+      console.log(img + " " + img != "");
+      if (img === "") {
+        return defultImage;
+      } else return img;
     }
-  },
+  }
 };
 </script>
