@@ -9,15 +9,15 @@ function createQuize(questions, quizName) {
         .ele("questions")
         .ele("group", { name: "Group0" });
 
-    for (var i = 0; i < questions.length; i++) {
+    for (let i = 0; i < questions.length; i++) {
         obj.ele('question',
             {
-                'answer': questions[i].true_answer,
+                'answer': questions[i].trueAnswer,
                 'name': 'Question' + questions[i].id,
                 'timeout': questions[i].timeout||20,
             })
-            .ele('text', questions[i].question).up()
-            .ele('picture', questions[i].path).up()
+            .ele('text', questions[i].questionText).up()
+            .ele('picture', questions[i].imagePath).up()
             .ele('answer', questions[i].answers[0]).up()
             .ele('answer', questions[i].answers[1]).up()
             .ele('answer', questions[i].answers[2]).up()
