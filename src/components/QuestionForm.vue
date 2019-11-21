@@ -145,7 +145,8 @@ export default {
       this.$refs.addQuestion.reset();
     },
     addImage(file) {
-      if (file && file.type === "image/jpeg") {
+      // Добавить шаблонную строку "image/*"
+      if (file && file.type === ("image/jpeg" || "image/png")) {
         let reader = new FileReader();
         reader.onload = () => {
           this.quize.image = reader.result;

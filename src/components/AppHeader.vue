@@ -3,32 +3,29 @@
     <v-toolbar-title>Test</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items>
-      <v-btn text fab v-for="(item, id) in MenuItems" :key="`menuItem${id}`" :to="item.link">
-        <v-icon>{{item.icon}}</v-icon>
-        <!-- {{item.title}} -->
-        </v-btn>
+      <v-btn text fab to="/">
+        <v-icon>mdi-home</v-icon>
+      </v-btn>
+      <v-btn text fab @click="save">
+        <v-icon>mdi-content-save</v-icon>
+      </v-btn>
     </v-toolbar-items>
   </v-toolbar>
 </template>
 
 <script>
+import { saveFile } from "@/modules/fileSistem.js";
 export default {
-   data() {
-    return {
-      MenuItems: [
-        {
-          icon:'mdi-content-save',
-          title:'Сохранить',
-          link:''
-        },
-        {
-          icon:'mdi-home',
-          title:'',
-          link:'/'
-        },
-      ]
-    };
+  data() {
+    return {};
   },
+  methods: {
+    save() {
+    let quizData = this.$store.getters.questions;
+
+      saveFile(quizData , "Тест генератора xml");
+    }
+  }
 };
 </script>
 
