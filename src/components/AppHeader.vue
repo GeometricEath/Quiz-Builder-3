@@ -14,15 +14,17 @@
 </template>
 
 <script>
+/* eslint-disable no-console */
+
 export default {
   data() {
     return {};
   },
   methods: {
     save() {
-      this.$bus.emit("saveProject");
-      // let quizData = this.$store.getters.questions;
-      // saveFile(quizData, "Тест генератора xml");
+      let quizData = this.$store.getters.questions;
+      console.log(quizData);
+      this.$bus.emit("saveProject", quizData);
     }
   }
 };

@@ -8,18 +8,22 @@ import { EventBus } from '../plugins/EvenBus';
 EventBus.on('saveProject', saveProject);
 
 function saveProject(data) {
-    // let data = EventBus.$store.getters.questions;
-    this.saveFile(data);
+    generateImageBlobURL(imageData);
 }
 function saveFile(quizData, quizName) {
     let xml = createQuize(quizData, quizName);
     const MIME_TYPE = "text/xml";
     let blob = new Blob([xml], { type: MIME_TYPE });
     let blobURL = window.URL.createObjectURL(blob);
+    console.log(blobURL);
     const link = document.createElement("a");
     link.download = "quizes";
     link.href = blobURL;
     link.click();
+}
+function generateImageBlobURL(imageData) {
+    let blob = new Blob([imageData]);
+    let blobURL = window.URL.createObjectURL(blob);
 }
 function createImagePath() {
     // let extension = mime.getExtension(obj.type); Получает расширение
