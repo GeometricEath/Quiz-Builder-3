@@ -39,21 +39,7 @@
                       rows="1"
                       auto-grow
                       lazy-validation
-                    >
-                      <!-- <template v-slot:prepend>
-                        <v-icon
-                          v-if="quize.image"
-                          @click="addImage"
-                          style="cursor:pointer;"
-                        >mdi-camera-plus</v-icon>
-                        <v-icon
-                          v-else
-                          color="primary"
-                          @click="addImage"
-                          style="cursor:pointer;"
-                        >mdi-camera-plus</v-icon>
-                      </template>-->
-                    </v-textarea>
+                    ></v-textarea>
                     <v-textarea
                       v-model="quize.answers[id]"
                       v-for="(answer, id) in 4"
@@ -69,7 +55,6 @@
                       <template v-slot:prepend>
                         <v-icon
                           v-if="quize.trueAnswer === id"
-                          @click="checked(id)"
                           color="primary"
                           style="cursor:pointer;"
                         >mdi-checkbox-marked-circle</v-icon>
@@ -128,8 +113,8 @@ export default {
     add() {
       this.$store.commit("ADD_QUESTION", this.quize);
       this.quize = {
-        image: "",
-        questionText: "",
+        image: null,
+        questionText: null,
         answers: [],
         trueAnswer: -1
       };
@@ -137,16 +122,15 @@ export default {
     },
     clearForm() {
       this.quize = {
-        image: "",
-        questionText: "",
+        image: null,
+        questionText: null,
         answers: [],
         trueAnswer: -1
       };
       this.$refs.addQuestion.reset();
     },
     addImage(file) {
-      // Добавить шаблонную строку "image/*"
-      if (file && file.type === ("image/jpeg" || "image/png")) {
+      if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
         let reader = new FileReader();
         reader.onload = () => {
           this.quize.image = reader.result;
