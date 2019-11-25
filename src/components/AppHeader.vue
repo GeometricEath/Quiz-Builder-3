@@ -23,8 +23,8 @@ export default {
   methods: {
     save() {
       let quizData = this.$store.getters.questions;
-      console.log(quizData);
-      this.$bus.emit("saveProject", quizData);
+      console.log(quizData[2].image);
+      this.$bus.emit("saveProject", quizData[2].image);
     }
   }
 };

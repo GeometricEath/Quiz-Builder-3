@@ -8,7 +8,7 @@ import { EventBus } from '../plugins/EvenBus';
 EventBus.on('saveProject', saveProject);
 
 function saveProject(data) {
-    generateImageBlobURL(imageData);
+    generateImageBlobURL(data);
 }
 function saveFile(quizData, quizName) {
     let xml = createQuize(quizData, quizName);
@@ -22,8 +22,15 @@ function saveFile(quizData, quizName) {
     link.click();
 }
 function generateImageBlobURL(imageData) {
-    let blob = new Blob([imageData]);
+    const MIME_TYPE = imageData.split(',')[0].split(':')[1].split(';')[0];
+    
+    let blob = new Blob([imageData], { type: MIME_TYPE });
     let blobURL = window.URL.createObjectURL(blob);
+    console.log(blobURL);
+    const link = document.createElement("a");
+    link.download = "image";
+    link.href = blobURL;
+    link.click();
 }
 function createImagePath() {
     // let extension = mime.getExtension(obj.type); Получает расширение
