@@ -1,141 +1,77 @@
 /* eslint-disable no-console */
-import path from 'path';
-import { remote } from 'electron';
-// import { createQuize } from "../modules/QuizeBuilder.js";
+import { createQuize } from "@/modules/QuizConverter";
+import { EventBus } from '../plugins/EvenBus';
+import store from '../store'
+import JSZip from 'jszip'
+
 // import parser from './xmlparser'
-const fs = require('fs');
-const util = require('util');
 const mime = require('mime/lite');
-const writeFile = util.promisify(fs.writeFile);
-const mkdir = util.promisify(fs.mkdir);
 
-export default class FileSistem {
-    constructor() {
+EventBus.on('saveProject', saveProject);
 
-    }
-    saveProject(questionsArray, quizeName) {
-        let outputPath = remote.dialog.showOpenDialog({
-            properties: ['openDirectory']
-        });
-        outputPath = outputPath.toString();
-        let projectPath = path.join(outputPath, quizeName);
-
-        function saveFile(data) {
-            return readUrlBlob(data.img)
-                .then((obj) => {
-                    let extension = mime.getExtension(obj.type);
-                    let imgName = 'img' + data.id + '.' + extension;
-                    data.path = path.join('don', quizeName, imgName);
-                    return writeFile(path.join(projectPath, imgName), obj.buffer)
-                })
-                .catch(er => { console.error(er) })
-                .then(() => {
-                    console.log('Save');
-                })
-
-        }
-        function readUrlBlob(url) {
-            return new Promise(function (resolve, reject) {
-                let xhr = new XMLHttpRequest();
-                xhr.open('GET', url, true);
-                xhr.responseType = 'blob';
-                xhr.onload = function () {
-                    if (this.status == 200) {
-                        let blob = this.response;
-                        console.log(blob.type);
-                        let reader = new FileReader();
-                        reader.readAsArrayBuffer(blob);
-                        reader.onloadend = (evt => {
-                            let buffer = Buffer.from(new Uint8Array(evt.target.result))
-                            console.log('Чтение блоба' + url);
-                            resolve({ buffer: buffer, type: blob.type });
-                        });
-                    } else { reject(Error(xhr.statusText)) }
-                };
-                xhr.send();
-            })
-        }
-
-        mkdir(projectPath)
-            .then(() => {
-                return Promise.all(questionsArray.map(saveFile))
-
-            })
-            .then(() => console.log('End'))
-            .then(() => {
-                // let xmlData = createQuize(questionsArray, quizeName);
-                // let xmlPath = path.join(projectPath, 'quize.xml')
-                // return writeFile(xmlPath, xmlData);
-            }).catch((err) => {
-                console.log('Ошибка! ' + err);
-            }).then(() => console.log('Quiz project seved'))
-
-        return
-        // mkdir(projectPath)
-        //     .then(() => {
-        //         console.log('Папка создана ' + projectPath);
-        //         function sequencer(sequence, question) {
-        //             return sequence.then(() => {
-        //                 return this.readUrlBlob(question.img);
-
-        //             })
-        //                 .then((obj) => {
-        //                     let extension = mime.getExtension(obj.type);
-        //                     let imgName = 'img' + question.id + '.' + extension;
-        //                     question.path = path.join('don', quizeName, imgName);
-        //                     return writeFile(path.join(projectPath, imgName), obj.buffer);
-        //                 })
-        //                 .catch((er) => {
-        //                     console.error('Ошибка блока write blob ' + er);
-        //                 })
-        //                 .then(() => {
-        //                     console.log('Saved')
-        //                 })
-        //         }
-        //         return questionsArray.reduce(sequencer.bind(this), Promise.resolve('test'));
-        //     }).then(() => { console.log('End ') })
-        //     .then(() => {
-        //         let xmlData = createQuize(questionsArray, quizeName);
-        //         let xmlPath = path.join(projectPath, 'quize.xml')
-        //         return writeFile(xmlPath, xmlData);
-        //     }).catch((err) => {
-        //         console.log('Ошибка! ' + err);
-        //     });
-    }
-    openImg() {
-        return new Promise(function (resolve, reject) {
-            remote.dialog.showOpenDialog(path => {
-                console.log(path);
-                fs.readFile(path[0], (err, data) => {
-                    if (err) {
-                        reject('Ошибка при чтении img ' + err);
-                    }
-                    let arrayBuffer = [];
-                    arrayBuffer.push(data);
-                    let mimeType = mime.getType(path[0])
-                    let blob = new Blob(arrayBuffer, { type: mimeType });
-                    console.log(blob.type);
-                    resolve(window.URL.createObjectURL(blob));
-                })
-            })
+function saveProject() {
+    let questions = store.getters.questions;
+    let quizName = store.getters.quizName;
+    let zip = new JSZip();
+    questions.forEach(questionData => {
+        questionData.imagePath = createImagePath(questionData.image, questionData.id, quizName);
+        let fileName = questionData.imagePath.split('\\')[2]
+        zip.file(fileName, dataURLtoBlob(questionData.image));
+    });
+    const xml = createQuize(questions, quizName);
+    zip.file('quiz.xml', xml)
+    zip.generateAsync({ type: "blob" })
+        .then(blob => {
+            let blobURL = window.URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.download = quizName;
+            link.href = blobURL;
+            link.click();
         })
-    }
-    openQuiz() {
-        return new Promise(function (resolve, reject) {
-            remote.dialog.showOpenDialog(path => {
-                console.log(path);
-                fs.readFile(path[0], (err, data) => {
-                    if (err) reject('Ошибка при чтении xml ' + err);
-                    // parser.parseXML(data)
-                    // .then((quiz)=>{
-                    //     console.log(quiz);
-                        // resolve (quiz);
-                        resolve (data);
-
-                    // })
-                })
-            })
-        })
-    }
 }
+function saveXmlAsFile(quizData, quizName) {
+    let xml = createQuize(quizData, quizName);
+    const MIME_TYPE = "text/xml";
+    let blob = new Blob([xml], { type: MIME_TYPE });
+    let blobURL = window.URL.createObjectURL(blob);
+    console.log(blobURL);
+    const link = document.createElement("a");
+    link.download = "quizes";
+    link.href = blobURL;
+    link.click();
+}
+function saveImageFromDataURL(imageData) {
+    fetch(imageData)
+        .then(res => res.blob())
+        .then(blob => {
+            let blobURL = window.URL.createObjectURL(blob);
+            console.log(blobURL);
+            const link = document.createElement("a");
+            link.download = "image";
+            link.href = blobURL;
+            link.click();
+        })
+}
+function dataURLtoBlob(url) {
+    return fetch(url)
+        .then(res => { return res.blob() })
+}
+function createImagePath(dataURL, id, quizName) {
+    const MIME_TYPE = dataURL.split(',')[0].split(':')[1].split(';')[0];
+    const extension = mime.getExtension(MIME_TYPE);
+    console.log(MIME_TYPE);
+    const imgName = 'img' + id + '.' + extension;
+    const imgPath = `don\\${quizName}\\${imgName}`
+    return imgPath;
+}
+
+export {
+    saveProject,
+    saveXmlAsFile,
+    saveImageFromDataURL,
+    createImagePath,
+    dataURLtoBlob
+}
+
+
 
