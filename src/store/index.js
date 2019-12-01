@@ -7,6 +7,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    quizName: 'QuizBuilder 3',
     questions: [
       {
         id: 0,
@@ -50,6 +51,9 @@ export default new Vuex.Store({
   getters: {
     questions(state) {
       return state.questions
+    },
+    quizName(state) {
+      return state.quizName
     }
   },
   modules: {
