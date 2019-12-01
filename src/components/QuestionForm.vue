@@ -21,6 +21,15 @@
                     <v-img :src="quize.image" max-width="280" contain class="mx-auto"></v-img>
                   </v-col>
                   <v-col>
+                    <v-slider v-model="quize.timeout" track-color="grey" always-dirty min="10" max="25" thumb-label="always">
+                      <template v-slot:prepend>
+                        <v-icon @click="decrement">mdi-minus</v-icon>
+                      </template>
+
+                      <template v-slot:append>
+                        <v-icon @click="increment">mdi-plus</v-icon>
+                      </template>
+                    </v-slider>
                     <v-file-input
                       @change="addImage"
                       accept="image/*"
@@ -89,7 +98,8 @@ export default {
         image: "",
         questionText: "",
         answers: [],
-        trueAnswer: -1
+        trueAnswer: -1,
+        timeout: 15
       },
       quesitonLenght: [
         v => !!v || "Викторина без вопросов невозможна",
@@ -116,7 +126,8 @@ export default {
         image: null,
         questionText: null,
         answers: [],
-        trueAnswer: -1
+        trueAnswer: -1,
+        timeout: 15
       };
       this.$refs.addQuestion.reset();
     },
@@ -125,7 +136,8 @@ export default {
         image: null,
         questionText: null,
         answers: [],
-        trueAnswer: -1
+        trueAnswer: -1,
+        timeout: 15
       };
       this.$refs.addQuestion.reset();
     },
@@ -142,6 +154,12 @@ export default {
     },
     checked(pyload) {
       this.quize.trueAnswer = pyload;
+    },
+    decrement() {
+      this.quize.timeout--;
+    },
+    increment() {
+      this.quize.timeout++;
     }
   }
 };
