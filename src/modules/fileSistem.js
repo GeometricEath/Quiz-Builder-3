@@ -1,16 +1,35 @@
 /* eslint-disable no-console */
 import { createQuize } from "@/modules/QuizConverter";
 import { EventBus } from '../plugins/EvenBus';
+import store from '../store'
+import JSZip from 'jszip'
 
 // import parser from './xmlparser'
-// const mime = require('mime/lite');
+const mime = require('mime/lite');
 
 EventBus.on('saveProject', saveProject);
 
-function saveProject(data) {
-    generateImageBlobURL(data);
+function saveProject() {
+    let questions = store.getters.questions;
+    let quizName = store.getters.quizName;
+    let zip = new JSZip();
+    questions.forEach(questionData => {
+        questionData.imagePath = createImagePath(questionData.image, questionData.id, quizName);
+        let fileName = questionData.imagePath.split('\\')[2]
+        zip.file(fileName, dataURLtoBlob(questionData.image));
+    });
+    const xml = createQuize(questions, quizName);
+    zip.file('quiz.xml', xml)
+    zip.generateAsync({ type: "blob" })
+        .then(blob => {
+            let blobURL = window.URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.download = quizName;
+            link.href = blobURL;
+            link.click();
+        })
 }
-function saveFile(quizData, quizName) {
+function saveXmlAsFile(quizData, quizName) {
     let xml = createQuize(quizData, quizName);
     const MIME_TYPE = "text/xml";
     let blob = new Blob([xml], { type: MIME_TYPE });
@@ -21,27 +40,37 @@ function saveFile(quizData, quizName) {
     link.href = blobURL;
     link.click();
 }
-function generateImageBlobURL(imageData) {
-    const MIME_TYPE = imageData.split(',')[0].split(':')[1].split(';')[0];
-    
-    let blob = new Blob([imageData], { type: MIME_TYPE });
-    let blobURL = window.URL.createObjectURL(blob);
-    console.log(blobURL);
-    const link = document.createElement("a");
-    link.download = "image";
-    link.href = blobURL;
-    link.click();
+function saveImageFromDataURL(imageData) {
+    fetch(imageData)
+        .then(res => res.blob())
+        .then(blob => {
+            let blobURL = window.URL.createObjectURL(blob);
+            console.log(blobURL);
+            const link = document.createElement("a");
+            link.download = "image";
+            link.href = blobURL;
+            link.click();
+        })
 }
-function createImagePath() {
-    // let extension = mime.getExtension(obj.type); Получает расширение
-    // let imgName = 'img' + data.id + '.' + extension;
-    // data.path = path.join('don', quizeName, imgName);
+function dataURLtoBlob(url) {
+    return fetch(url)
+        .then(res => { return res.blob() })
+}
+function createImagePath(dataURL, id, quizName) {
+    const MIME_TYPE = dataURL.split(',')[0].split(':')[1].split(';')[0];
+    const extension = mime.getExtension(MIME_TYPE);
+    console.log(MIME_TYPE);
+    const imgName = 'img' + id + '.' + extension;
+    const imgPath = `don\\${quizName}\\${imgName}`
+    return imgPath;
 }
 
 export {
     saveProject,
-    saveFile,
-    createImagePath
+    saveXmlAsFile,
+    saveImageFromDataURL,
+    createImagePath,
+    dataURLtoBlob
 }
 
 
