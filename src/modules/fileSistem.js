@@ -3,9 +3,9 @@ import { createQuize } from "@/modules/QuizConverter";
 import { EventBus } from '../plugins/EvenBus';
 import store from '../store'
 import JSZip from 'jszip'
+import mime from 'mime/lite'
 
 // import parser from './xmlparser'
-const mime = require('mime/lite');
 
 EventBus.on('saveProject', saveProject);
 
