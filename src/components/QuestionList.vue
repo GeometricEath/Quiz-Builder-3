@@ -73,6 +73,7 @@
                 </v-col>
               </v-row>
               <div class="float-right">
+                <v-icon @click="$emit('showOverlay')">mdi-pencil-outline</v-icon>
                 <v-icon
                   :data-id="question.id"
                   @click="deleteQuestion"
