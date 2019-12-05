@@ -16,15 +16,46 @@
               <v-row class="justify-center pr-6">{{question.questionText}}</v-row>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-row justify="center">
-                <v-col cols="12" xs="12" md="3" class="my-auto grey lighten-3">
-                  <v-img
-                    :src="replaceMissingImage(question.image)"
-                    max-width="180"
-                    contain
-                    class="mx-auto"
-                  ></v-img>
+              <v-row class="grey lighten-3">
+                <v-col
+                  cols="12"
+                  xs="12"
+                  md="3"
+                  class="my-auto"
+                  style="position: relative; font-size:20px;"
+                >
+                  <div class="hidden-sm-and-up">
+                    <v-img :src="replaceMissingImage(question.image)" contain class="mx-auto"></v-img>
+                    <div class="text-center pt-3">
+                      <v-icon class="primary--text">mdi-timer</v-icon>
+                      {{question.timeout + 'с'}}
+                    </div>
+                  </div>
+                  <div class="hidden-xs-only">
+                    <div style="position:absolute; bottom:25px;">
+                      <v-progress-circular
+                        :value="100/26 * question.timeout"
+                        size="75"
+                        width="6"
+                        rotate="-90"
+                        color="blue"
+                      >
+                        <div class="mx-auto text-center">
+                          <v-icon>mdi-timer</v-icon>
+                          <p class="mb-0">{{question.timeout + 'с'}}</p>
+                        </div>
+                      </v-progress-circular>
+                    </div>
+                    <v-img
+                      :src="replaceMissingImage(question.image)"
+                      max-width="60%"
+                      contain
+                      class="mx-auto"
+                    ></v-img>
+                  </div>
                 </v-col>
+              </v-row>
+              <v-row>
                 <v-col xs="12" md="9" class="px-0 px-md-2">
                   <v-list disabled dense>
                     <v-list-item-group v-model="question.trueAnswer" color="primary">
