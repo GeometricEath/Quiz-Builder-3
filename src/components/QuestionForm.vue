@@ -1,8 +1,8 @@
 
 <template>
   <v-row>
-    <v-col xs="12" sm="10" md="8" lg="6">
-      <v-expansion-panels v-model="panel">
+    <v-col cols="12">
+      <!-- <v-expansion-panels v-model="panel">
         <v-expansion-panel expand focusable>
           <v-expansion-panel-header>
             <template v-slot:default="{ open }">
@@ -13,7 +13,7 @@
               </v-row>
             </template>
           </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          <v-expansion-panel-content> -->
             <v-form ref="addQuestion">
               <v-container>
                 <v-row no-gutters justify="center">
@@ -21,7 +21,7 @@
                     <v-img :src="quize.image" max-width="280" contain class="mx-auto"></v-img>
                   </v-col>
                   <v-col>
-                    <v-slider v-model="quize.timeout" track-color="grey" always-dirty min="10" max="25" thumb-label="always">
+                    <v-slider v-model="quize.timeout" track-color="grey" always-dirty max="25" thumb-label="always">
                       <template v-slot:prepend>
                         <v-icon @click="decrement">mdi-minus</v-icon>
                       </template>
@@ -82,9 +82,9 @@
                 </v-row>
               </v-container>
             </v-form>
-          </v-expansion-panel-content>
+          <!-- </v-expansion-panel-content>
         </v-expansion-panel>
-      </v-expansion-panels>
+      </v-expansion-panels> -->
     </v-col>
   </v-row>
 </template>

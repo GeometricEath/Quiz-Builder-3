@@ -1,7 +1,7 @@
 <template>
   <v-content>
     <v-row class="justify-center">
-      <v-col xs="12" sm="10" md="8" lg="6">
+      <v-col cols="12">
         <v-expansion-panels>
           <v-expansion-panel
             v-for="(question) in questions"
@@ -17,18 +17,12 @@
             </v-expansion-panel-header>
             <v-expansion-panel-content>
               <v-row class="grey lighten-3">
-                <v-col
-                  cols="12"
-                  xs="12"
-                  md="3"
-                  class="my-auto"
-                  style="position: relative; font-size:20px;"
-                >
+                <v-col cols="12" class="my-auto" style="position: relative; font-size:20px;">
                   <div class="hidden-sm-and-up">
                     <v-img :src="replaceMissingImage(question.image)" contain class="mx-auto"></v-img>
                     <div class="text-center pt-3">
                       <v-icon class="primary--text">mdi-timer</v-icon>
-                      {{question.timeout + 'с'}}
+                      {{question.timeout + 'сек.'}}
                     </div>
                   </div>
                   <div class="hidden-xs-only">
@@ -56,7 +50,7 @@
                 </v-col>
               </v-row>
               <v-row>
-                <v-col xs="12" md="9" class="px-0 px-md-2">
+                <v-col cols="12" class="px-0">
                   <v-list disabled dense>
                     <v-list-item-group v-model="question.trueAnswer" color="primary">
                       <v-list-item v-for="(answer, k) in question.answers" :key="k" class="px-2">
