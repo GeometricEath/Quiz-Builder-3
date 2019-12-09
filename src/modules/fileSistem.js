@@ -67,7 +67,6 @@ function createImagePath(dataURL, id, quizName) {
 function readAsTextXML(file) {
     let reader = new FileReader();
     reader.onload = () => {
-        console.log(reader.result)
         parser.parseXML(reader.result)
             .then((questions, quizName) => {
                 console.log(questions);
