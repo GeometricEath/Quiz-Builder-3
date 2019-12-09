@@ -4,7 +4,7 @@ import { EventBus } from '../plugins/EvenBus';
 import store from '../store'
 import JSZip from 'jszip'
 
-// import parser from './xmlparser'
+import parser from './xmlparser'
 const mime = require('mime/lite');
 
 EventBus.on('saveProject', saveProject);
@@ -64,13 +64,26 @@ function createImagePath(dataURL, id, quizName) {
     const imgPath = `don\\${quizName}\\${imgName}`
     return imgPath;
 }
+function readAsTextXML(file) {
+    let reader = new FileReader();
+    reader.onload = () => {
+        console.log(reader.result)
+        parser.parseXML(reader.result)
+            .then((questions, quizName) => {
+                console.log(questions);
+                console.log(quizName);
+            })
+    }
+    reader.readAsText(file, 'windows-1251')
+}
 
 export {
     saveProject,
     saveXmlAsFile,
     saveImageFromDataURL,
     createImagePath,
-    dataURLtoBlob
+    dataURLtoBlob,
+    readAsTextXML
 }
 
 

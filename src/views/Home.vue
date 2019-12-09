@@ -21,7 +21,7 @@
             <p>Создать</p>
             </div>
             <div >
-               <v-btn fab large class="mb-2" to="/open">
+               <v-btn fab large class="mb-2" to="/open_project">
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
             <p>Редактировать</p>
