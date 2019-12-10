@@ -67,13 +67,22 @@ function createImagePath(dataURL, id, quizName) {
 function readAsTextXML(file) {
     let reader = new FileReader();
     reader.onload = () => {
-        parser.parseXML(reader.result)
-            .then((questions, quizName) => {
-                console.log(questions);
-                console.log(quizName);
-            })
+        let quizData = parser.parseXML(reader.result);
+        // console.log(quizData);
+        quizData.questions.forEach(question => {
+            // console.log(readAsDataURL(question.image))
+            store.commit('ADD_QUESTION', question);
+        });
+
     }
     reader.readAsText(file, 'windows-1251')
+}
+function readAsDataURL(path) {
+    let reader = new FileReader();
+        reader.onload = () => {
+          this.quize.image = reader.result;
+        };
+        reader.readAsDataURL(path);
 }
 
 export {
@@ -82,7 +91,8 @@ export {
     saveImageFromDataURL,
     createImagePath,
     dataURLtoBlob,
-    readAsTextXML
+    readAsTextXML,
+    readAsDataURL
 }
 
 
