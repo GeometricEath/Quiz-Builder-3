@@ -1,55 +1,63 @@
 <template>
-  <!-- <div class="select_wrapper">
-        <button @click="$router.push({name: 'landing'})">Назад</button>
-        <div class="select__file">
-            <h1>Выберете XML файл викторины</h1>
-            <button @click="open">Открыть</button>
-        </div>
-  </div>-->
   <v-container grid-list-sm>
     <v-file-input
-      v-model="files"
-      @change="checkFile"
+      v-model="itemsInForm"
+      accept="image/*, text/xml"
       color="deep-purple accent-4"
       counter
-      label="File input"
-      placeholder="Select your files"
+      multiple
+      label="Загрузка файлов"
+      placeholder="Выберете файлы викторины"
       prepend-icon="mdi-paperclip"
       outlined
       :show-size="1000"
     >
       <template v-slot:selection="{ index, text }">
-        <v-chip v-if="index < 2" color="deep-purple accent-4" dark label small>{{ text }}</v-chip>
-
+        <v-chip v-if="index < 25" color="deep-purple accent-4" dark label small>{{ text }}</v-chip>
         <span
-          v-else-if="index === 2"
+          v-else-if="index === 25"
           class="overline grey--text text--darken-3 mx-2"
-        >+{{ files.length - 2 }} File(s)</span>
+        >+{{ files.length - 25 }} File(s)</span>
       </template>
     </v-file-input>
-    <v-list two-line>
-      <v-list-tile avatar>
-        <v-list-tile-avatar></v-list-tile-avatar>
-        <v-list-tile-content>
-          <v-list-tile-title>title</v-list-tile-title>
-          <v-list-tile-sub-title>subTitle</v-list-tile-sub-title>
-        </v-list-tile-content>
-      </v-list-tile>
+    <v-btn @click="checkFiles">Добавить</v-btn>
+    <v-list>
+      <v-list-item-group>
+        <v-list-item v-for="(fileItem, k) in images" :key="k">
+          <v-list-item-content>
+            <v-chip close>{{fileItem.name}}</v-chip>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
     </v-list>
   </v-container>
 </template>
 <script>
 /* eslint-disable no-console */
-import { readAsTextXML } from "../modules/fileSistem.js";
+// import { readAsTextXML } from "../modules/fileSistem.js";
 export default {
   data() {
     return {
-      files: []
+      filesList: [],
+      itemsInForm: [],
+      images: [],
+      quizFile: null
     };
   },
   methods: {
-    checkFile(file) {
-      if (file ) readAsTextXML(file);
+    checkFiles() {
+      if (!this.itemsInForm) return;
+      this.itemsInForm.forEach(file => {
+        if (file.type === "text/xml") this.quizFile = file;
+        if (file.type === "image/jpeg" || file.type === "image/png"){
+        this.images.push(file);
+        }
+      });
+      this.itemsInForm = [];
+      // if (file.type == "text/xml") {
+      //   readAsTextXML(file);
+      //   this.$router.push({ path: "/editor" });
+      // }
     }
   }
 };
