@@ -25,7 +25,10 @@
       <v-list-item-group>
         <v-list-item v-for="(fileItem, k) in images" :key="k">
           <v-list-item-content>
-            <v-chip close>{{fileItem.name}}</v-chip>
+            <v-card>
+              <v-img max-width="150px" contain :src="fileItem.imageURL"></v-img>
+              <v-chip close>{{fileItem.imageName}}</v-chip>
+            </v-card>
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
@@ -34,30 +37,40 @@
 </template>
 <script>
 /* eslint-disable no-console */
-// import { readAsTextXML } from "../modules/fileSistem.js";
+import { readAsDataURL, readAsTextXML } from "../modules/fileSistem.js";
 export default {
   data() {
     return {
-      filesList: [],
       itemsInForm: [],
       images: [],
-      quizFile: null
     };
   },
   methods: {
     checkFiles() {
       if (!this.itemsInForm) return;
       this.itemsInForm.forEach(file => {
-        if (file.type === "text/xml") this.quizFile = file;
-        if (file.type === "image/jpeg" || file.type === "image/png"){
-        this.images.push(file);
+        if (file.type === "text/xml") {
+          readAsTextXML(file);
+        }
+        if (file.type === "image/jpeg" || file.type === "image/png") {
+          let imageName = file.name;
+          readAsDataURL(file).then(imageURL => {
+            this.images.push({ imageURL, imageName });
+          });
         }
       });
       this.itemsInForm = [];
-      // if (file.type == "text/xml") {
-      //   readAsTextXML(file);
-      //   this.$router.push({ path: "/editor" });
-      // }
+    }
+  },
+  computed: {
+    questions() {
+      let result = this.$store.getters.questions.map((question) => {
+        let imageName = question.image.split('\\')[3];
+        let questionText = question.questionText;
+        // Добавить поиск в this.images по imageName
+        return {imageName, questionText}
+      });
+      return result
     }
   }
 };
