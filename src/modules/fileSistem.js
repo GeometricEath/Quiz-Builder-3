@@ -77,12 +77,13 @@ function readAsTextXML(file) {
     }
     reader.readAsText(file, 'windows-1251')
 }
-function readAsDataURL(path) {
-    let reader = new FileReader();
-        reader.onload = () => {
-          this.quize.image = reader.result;
-        };
+async function readAsDataURL(path) {
+    return new Promise((resolve, reject) =>{
+        let reader = new FileReader();
+        reader.onload = () => resolve(reader.result)
+        reader.onerror = (err) => reject(err)
         reader.readAsDataURL(path);
+    })
 }
 
 export {
