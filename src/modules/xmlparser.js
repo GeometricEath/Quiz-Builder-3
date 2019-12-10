@@ -20,15 +20,15 @@ class ParseXmlToQuiz {
             let id = 0;
             let questions = json.map((question) => {
                 let newQestion = {};
-                newQestion.true_answer = question.$.answer;
+                newQestion.trueAnswer = question.$.answer;
                 newQestion.timeout = question.$.timeout;
-                newQestion.pic_path = question.picture[0];
-                newQestion.question = question.text[0];
+                newQestion.image = question.picture[0];
+                newQestion.questionText = question.text[0];
                 newQestion.answers = question.answer;
                 newQestion.id = id++;
-                return newQestion;
+                return newQestion
             })
-            console.log(questions, quizName);
+            return {questions, quizName};
         } catch (err) {
             console.error(err);
         }
