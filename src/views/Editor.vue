@@ -3,7 +3,7 @@
     <v-content fill-height class="justify-center">
       <v-row justify="center">
         <v-col xs="12" sm="10" md="8" lg="6">
-          <question-list @showOverlay="edeting = true"></question-list>
+          <question-list @showOverlay="editQuestion"></question-list>
           <v-expansion-panels v-model="editorPanelState">
             <v-expansion-panel expand focusable>
               <v-expansion-panel-header>
@@ -26,7 +26,12 @@
                 <v-card>
                   <v-card-title>Добавить вопрос</v-card-title>
                   <v-card-text height="90%">
-                    <question-form class="justify-center"></question-form>
+                    <question-form
+                      class="justify-center"
+                      :question="editableQuestion"
+                      :isEdeting="edeting"
+                      @mutationIsDone="mutationIsDone"
+                    ></question-form>
                   </v-card-text>
                 </v-card>
               </v-col>
@@ -39,6 +44,7 @@
 </template>
 
 <script>
+/* eslint-disable no-console */
 import QuestionList from "@/components/QuestionList.vue";
 import QuestionForm from "@/components/QuestionForm.vue";
 
@@ -46,15 +52,23 @@ export default {
   data() {
     return {
       edeting: false,
+      editableQuestion: {},
       editorPanelState: 0
     };
   },
   components: {
     QuestionList,
     QuestionForm
+  },
+  methods: {
+    editQuestion(id) {
+      this.editableQuestion = this.$store.getters.getQuestionByID(id);
+      this.edeting = true;
+    },
+    mutationIsDone() {
+      this.edeting = false;
+      // this.editableQuestion = {}
+    }
   }
 };
 </script>
-
-<style>
-</style>

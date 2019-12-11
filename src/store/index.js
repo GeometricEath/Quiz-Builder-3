@@ -9,13 +9,19 @@ export default new Vuex.Store({
   state: {
     quizName: 'QuizBuilder 3',
     questions: [
-      
+
     ]
   },
   mutations: {
     ADD_QUESTION(state, payload) {
       payload.id = state.questions.length
       state.questions.push(payload)
+    },
+    CHANGE_QUESTION(state, payload){
+      state.questions.find((item)=>{
+        if (item.id === payload.id) item = payload;
+      })
+
     },
     DELETE_QUESTION(state, id) {
       state.questions.splice(id, 1)
@@ -26,6 +32,12 @@ export default new Vuex.Store({
   getters: {
     questions(state) {
       return state.questions
+    },
+    getQuestionByID: state => id => {
+      let result = state.questions.find(item => {
+        if (item.id === id) return item
+       })
+     return result
     },
     quizName(state) {
       return state.quizName

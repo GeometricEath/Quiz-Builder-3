@@ -13,78 +13,85 @@
               </v-row>
             </template>
           </v-expansion-panel-header>
-          <v-expansion-panel-content> -->
-            <v-form ref="addQuestion">
-              <v-container>
-                <v-row no-gutters justify="center">
-                  <v-col v-if="quize.image" cols="12" class="my-auto grey lighten-3 py-4">
-                    <v-img :src="quize.image" max-width="280" contain class="mx-auto"></v-img>
-                  </v-col>
-                  <v-col>
-                    <v-slider v-model="quize.timeout" track-color="grey" always-dirty max="25" thumb-label="always">
-                      <template v-slot:prepend>
-                        <v-icon @click="decrement">mdi-minus</v-icon>
-                      </template>
+      <v-expansion-panel-content>-->
+      <v-form ref="addQuestion">
+        <v-container>
+          <v-row no-gutters justify="center">
+            <v-col v-if="quiz.image" cols="12" class="my-auto grey lighten-3 py-4">
+              <v-img :src="quiz.image" max-width="280" contain class="mx-auto"></v-img>
+            </v-col>
+            <v-col>
+              <v-slider
+                v-model="quiz.timeout"
+                track-color="grey"
+                always-dirty
+                max="25"
+                thumb-label="always"
+              >
+                <template v-slot:prepend>
+                  <v-icon @click="decrement">mdi-minus</v-icon>
+                </template>
 
-                      <template v-slot:append>
-                        <v-icon @click="increment">mdi-plus</v-icon>
-                      </template>
-                    </v-slider>
-                    <v-file-input
-                      @change="addImage"
-                      accept="image/*"
-                      label="Добавить изображение"
-                      prepend-icon="mdi-camera-plus"
-                      small-chips
-                    ></v-file-input>
-                    <v-textarea
-                      v-model="quize.questionText"
-                      :rules="quesitonLenght"
-                      :counter="120"
-                      class="ml-8"
-                      name="question"
-                      label="Вопрос"
-                      outlined
-                      rows="1"
-                      auto-grow
-                      lazy-validation
-                    ></v-textarea>
-                    <v-textarea
-                      v-model="quize.answers[id]"
-                      v-for="(answer, id) in 4"
-                      :key="`answer${id}`"
-                      :name="`answer${id}`"
-                      :label="`Ответ${id+1}`"
-                      :counter="60"
-                      outlined
-                      rows="1"
-                      auto-grow
-                      lazy-validation
-                    >
-                      <template v-slot:prepend>
-                        <v-icon
-                          v-if="quize.trueAnswer === id"
-                          color="primary"
-                          style="cursor:pointer;"
-                        >mdi-checkbox-marked-circle</v-icon>
-                        <v-icon
-                          v-else
-                          @click="checked(id)"
-                          style="cursor:pointer;"
-                        >mdi-checkbox-blank-circle-outline</v-icon>
-                      </template>
-                    </v-textarea>
-                    <v-card-actions class="d-flex align-center justify-center">
-                      <v-btn :disabled="!valid" @click="add" color="primary">Добавить</v-btn>
-                      <v-btn @click="clearForm" class="lime lighten-4">Очистить</v-btn>
-                    </v-card-actions>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-form>
-          <!-- </v-expansion-panel-content>
+                <template v-slot:append>
+                  <v-icon @click="increment">mdi-plus</v-icon>
+                </template>
+              </v-slider>
+              <v-file-input
+                @change="addImage"
+                accept="image/*"
+                label="Добавить изображение"
+                prepend-icon="mdi-camera-plus"
+                small-chips
+              ></v-file-input>
+              <v-textarea
+                v-model="quiz.questionText"
+                :rules="quesitonLenght"
+                :counter="120"
+                class="ml-8"
+                name="question"
+                label="Вопрос"
+                outlined
+                rows="1"
+                auto-grow
+                lazy-validation
+              ></v-textarea>
+              <v-textarea
+                v-model="quiz.answers[id]"
+                v-for="(answer, id) in 4"
+                :key="`answer${id}`"
+                :name="`answer${id}`"
+                :label="`Ответ${id+1}`"
+                :counter="60"
+                outlined
+                rows="1"
+                auto-grow
+                lazy-validation
+              >
+                <template v-slot:prepend>
+                  <v-icon
+                    v-if="quiz.trueAnswer === id"
+                    color="primary"
+                    style="cursor:pointer;"
+                  >mdi-checkbox-marked-circle</v-icon>
+                  <v-icon
+                    v-else
+                    @click="checked(id)"
+                    style="cursor:pointer;"
+                  >mdi-checkbox-blank-circle-outline</v-icon>
+                </template>
+              </v-textarea>
+              <v-card-actions class="d-flex align-center justify-center">
+                <v-btn v-if="!isEdeting" :disabled="!valid" @click="add" color="primary">Добавить</v-btn>
+                <v-btn v-else :disabled="!valid" @click="mutateQuestion" color="primary">Изменить</v-btn>
+                <v-btn @click="clearForm" class="lime lighten-4">Очистить</v-btn>
+              </v-card-actions>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-form>
+      <!-- </v-expansion-panel-content>
         </v-expansion-panel>
-      </v-expansion-panels> -->
+      </v-expansion-panels>-->
     </v-col>
   </v-row>
 </template>
@@ -94,13 +101,7 @@ export default {
   data() {
     return {
       panel: 0,
-      quize: {
-        image: "",
-        questionText: "",
-        answers: [],
-        trueAnswer: -1,
-        timeout: 15
-      },
+      quiz: this.question,
       quesitonLenght: [
         v => !!v || "Викторина без вопросов невозможна",
         v =>
@@ -112,6 +113,25 @@ export default {
       // ]
     };
   },
+  props: {
+    question: {
+      type: Object,
+      default: () => {
+        console.log("return default obj");
+        return {
+          image: "",
+          questionText: "",
+          answers: [],
+          trueAnswer: -1,
+          timeout: 15
+        };
+      }
+    },
+    isEdeting: {
+      type: Boolean,
+      default: false
+    }
+  },
   computed: {
     valid() {
       return this.quize.questionText && this.quize.trueAnswer >= 0
@@ -121,8 +141,8 @@ export default {
   },
   methods: {
     add() {
-      this.$store.commit("ADD_QUESTION", this.quize);
-      this.quize = {
+      this.$store.commit("ADD_QUESTION", this.quiz);
+      this.quiz = {
         image: null,
         questionText: null,
         answers: [],
@@ -131,8 +151,20 @@ export default {
       };
       this.$refs.addQuestion.reset();
     },
+    mutateQuestion() {
+      this.$store.commit("CHANGE_QUESTION", this.quiz);
+      this.$emit("mutationIsDone");
+      // this.quiz = {}
+      // this.quiz = {
+      //   image: null,
+      //   questionText: null,
+      //   answers: [],
+      //   trueAnswer: -1,
+      //   timeout: 15
+      // };
+    },
     clearForm() {
-      this.quize = {
+      this.quiz = {
         image: null,
         questionText: null,
         answers: [],
@@ -145,21 +177,21 @@ export default {
       if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
         let reader = new FileReader();
         reader.onload = () => {
-          this.quize.image = reader.result;
+          this.quiz.image = reader.result;
         };
         reader.readAsDataURL(file);
       } else {
-        this.quize.image = "";
+        this.quiz.image = "";
       }
     },
     checked(pyload) {
-      this.quize.trueAnswer = pyload;
+      this.quiz.trueAnswer = pyload;
     },
     decrement() {
-      this.quize.timeout--;
+      this.quiz.timeout--;
     },
     increment() {
-      this.quize.timeout++;
+      this.quiz.timeout++;
     }
   }
 };
