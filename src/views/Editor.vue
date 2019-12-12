@@ -15,16 +15,14 @@
 </template>
 
 <script>
-// import AppHeader from "../components/AppHeader.vue";
 import QuestionList from "@/components/QuestionList.vue";
 import QuestionForm from "@/components/QuestionForm.vue";
 
 export default {
   components: {
-    // AppHeader,
     QuestionList,
     QuestionForm
-  }
+  },
 };
 </script>
 
