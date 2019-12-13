@@ -62,7 +62,9 @@ export default {
   },
   methods: {
     editQuestion(id) {
-      this.editableQuestion = this.$store.getters.getQuestionByID(id);
+      const question = this.$store.getters.getQuestionByID(id);
+      this.editableQuestion = JSON.parse(JSON.stringify(question));
+      // this.editableQuestion = question;
       this.edeting = true;
     },
     mutationIsDone() {

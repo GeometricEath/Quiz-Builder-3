@@ -100,7 +100,7 @@ export default {
       if (img === "") {
         return defultImage;
       } else return img;
-    }
+    },
   }
 };
 </script>

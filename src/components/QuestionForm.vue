@@ -121,7 +121,7 @@ export default {
         return {
           image: "",
           questionText: "",
-          answers: [],
+          answers: ["", "", "", ""],
           trueAnswer: -1,
           timeout: 15
         };
@@ -134,22 +134,18 @@ export default {
   },
   computed: {
     valid() {
-      return this.quize.questionText && this.quize.trueAnswer >= 0
-        ? true
-        : false;
+      return this.quiz.questionText && this.quiz.trueAnswer >= 0 ? true : false;
     }
   },
+  // watch: {
+  //   question(newValue) {
+  //     this.quiz = newValue;
+  //   }
+  // },
   methods: {
     add() {
       this.$store.commit("ADD_QUESTION", this.quiz);
-      this.quiz = {
-        image: null,
-        questionText: null,
-        answers: [],
-        trueAnswer: -1,
-        timeout: 15
-      };
-      this.$refs.addQuestion.reset();
+      this.clearForm();
     },
     mutateQuestion() {
       this.$store.commit("CHANGE_QUESTION", this.quiz);
@@ -165,8 +161,8 @@ export default {
     },
     clearForm() {
       this.quiz = {
-        image: null,
-        questionText: null,
+        image: "",
+        questionText: "",
         answers: [],
         trueAnswer: -1,
         timeout: 15
