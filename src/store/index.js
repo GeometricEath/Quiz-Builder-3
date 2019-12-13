@@ -18,15 +18,12 @@ export default new Vuex.Store({
       state.questions.push(payload)
     },
     CHANGE_QUESTION(state, payload) {
-      let findByID = state.questions.find((item) => {
+      state.questions.find((item) => {
         if (item.id === payload.id) {
-          console.log("Вопрос изменяется", payload)
-          item.questionText = payload.questionText;
-          console.log(item)
+          Object.assign(item, payload)
           return true
         }
       })
-      console.log(findByID);
     },
     DELETE_QUESTION(state, id) {
       state.questions.splice(id, 1)
@@ -40,9 +37,10 @@ export default new Vuex.Store({
     },
     getQuestionByID: state => id => {
       let result = state.questions.find(item => {
-        if (item.id === id) return item
+        if (item.id === id) return true
       })
-      return result
+      result.answers = [...result.answers]
+      return { ...result }
     },
     quizName(state) {
       return state.quizName

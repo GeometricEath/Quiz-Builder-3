@@ -137,11 +137,11 @@ export default {
       return this.quiz.questionText && this.quiz.trueAnswer >= 0 ? true : false;
     }
   },
-  // watch: {
-  //   question(newValue) {
-  //     this.quiz = newValue;
-  //   }
-  // },
+  watch: {
+    question(newValue) {
+      this.quiz = newValue;
+    }
+  },
   methods: {
     add() {
       this.$store.commit("ADD_QUESTION", this.quiz);

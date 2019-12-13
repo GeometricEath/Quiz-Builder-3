@@ -20,7 +20,7 @@
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
-          <v-dialog v-model="edeting" scrollable max-width="860px" width="80%">
+          <v-dialog v-model="edeting" @click:outside="mutationIsDone" scrollable max-width="860px" width="80%">
             <v-row justify="center">
               <v-col cols="12">
                 <v-card>
@@ -60,11 +60,23 @@ export default {
     QuestionList,
     QuestionForm
   },
+  // computed: {
+  //   editableQuestion: {
+  //     get(id) {
+  //       const question = this.$store.getters.getQuestionByID(id);
+  //       // this.editableQuestion = JSON.parse(JSON.stringify(question));
+  //       // this.editableQuestion = question;
+  //       // this.edeting = true;
+  //       return question;
+  //     },
+  //     set(value) {
+  //       console.log(value);
+  //     }
+  //   }
+  // },
   methods: {
     editQuestion(id) {
-      const question = this.$store.getters.getQuestionByID(id);
-      this.editableQuestion = JSON.parse(JSON.stringify(question));
-      // this.editableQuestion = question;
+      this.editableQuestion = this.$store.getters.getQuestionByID(id);
       this.edeting = true;
     },
     mutationIsDone() {
