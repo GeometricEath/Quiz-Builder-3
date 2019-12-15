@@ -2,18 +2,6 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <!-- <v-expansion-panels v-model="panel">
-        <v-expansion-panel expand focusable>
-          <v-expansion-panel-header>
-            <template v-slot:default="{ open }">
-              <v-row no-gutters>
-                <v-col class="d-flex align-center justify-center">
-                  <h2>Добавить вопрос</h2>
-                </v-col>
-              </v-row>
-            </template>
-          </v-expansion-panel-header>
-      <v-expansion-panel-content>-->
       <v-form ref="addQuestion">
         <v-container>
           <v-row no-gutters justify="center">
@@ -56,8 +44,8 @@
                 lazy-validation
               ></v-textarea>
               <v-textarea
-                v-model="quiz.answers[id]"
                 v-for="(answer, id) in 4"
+                v-model="quiz.answers[id]"
                 :key="`answer${id}`"
                 :name="`answer${id}`"
                 :label="`Ответ${id+1}`"
@@ -89,9 +77,6 @@
           </v-row>
         </v-container>
       </v-form>
-      <!-- </v-expansion-panel-content>
-        </v-expansion-panel>
-      </v-expansion-panels>-->
     </v-col>
   </v-row>
 </template>
@@ -150,14 +135,7 @@ export default {
     mutateQuestion() {
       this.$store.commit("CHANGE_QUESTION", this.quiz);
       this.$emit("mutationIsDone");
-      // this.quiz = {}
-      // this.quiz = {
-      //   image: null,
-      //   questionText: null,
-      //   answers: [],
-      //   trueAnswer: -1,
-      //   timeout: 15
-      // };
+      this.clearForm();
     },
     clearForm() {
       this.quiz = {

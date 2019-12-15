@@ -36,11 +36,8 @@ export default new Vuex.Store({
       return state.questions
     },
     getQuestionByID: state => id => {
-      let result = state.questions.find(item => {
-        if (item.id === id) return true
-      })
-      result.answers = [...result.answers]
-      return { ...result }
+      let result = state.questions.find(item => {return item.id === id})
+      return {...result, answers:[...result.answers]}
     },
     quizName(state) {
       return state.quizName
