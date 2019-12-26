@@ -18,7 +18,7 @@
               <v-container>
                 <v-row no-gutters justify="center">
                   <v-col v-if="quize.image" cols="12" class="my-auto grey lighten-3 py-4">
-                    <v-img :src="quize.image" max-width="280" contain class="mx-auto"></v-img>
+                    <v-img v-img-orientation-changer :src="quize.image" max-width="280" contain class="mx-auto"></v-img>
                   </v-col>
                   <v-col>
                     <v-file-input

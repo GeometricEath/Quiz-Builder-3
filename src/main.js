@@ -5,6 +5,9 @@ import store from './store'
 import vuetify from './plugins/vuetify';
 import { setupEvenBus } from './plugins/EvenBus'
 import * as fileSistem from './modules/fileSistem'
+import VueImgOrientationChanger from 'vue-img-orientation-changer'
+
+Vue.use(VueImgOrientationChanger)
 
 Vue.config.productionTip = false
 setupEvenBus();
