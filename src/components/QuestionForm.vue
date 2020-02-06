@@ -5,7 +5,7 @@
       <v-expansion-panels v-model="panel">
         <v-expansion-panel expand focusable>
           <v-expansion-panel-header>
-            <template v-slot:default="{ open }">
+            <template v-slot:default>
               <v-row no-gutters>
                 <v-col class="d-flex align-center justify-center">
                   <h2>Добавить вопрос</h2>

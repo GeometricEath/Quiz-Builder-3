@@ -20,7 +20,7 @@
         >+{{ files.length - 25 }} File(s)</span>
       </template>
     </v-file-input>
-    <v-btn @click="checkFiles">Добавить</v-btn>
+    <v-btn @click="checkFiles">Добавить выбраные файлы</v-btn>
     <v-list>
       <v-list-item-group>
         <v-list-item v-for="(fileItem, k) in images" :key="k">
@@ -33,6 +33,7 @@
         </v-list-item>
       </v-list-item-group>
     </v-list>
+    <v-btn @click="prepareQuiz">Продолжить</v-btn>
   </v-container>
 </template>
 <script>
@@ -60,18 +61,30 @@ export default {
         }
       });
       this.itemsInForm = [];
+    },
+    prepareQuiz(){
+            function findImages (element, index, array){
+              images.forEach(img =>{
+                if (element.imageName == img.imageName)
+
+              });
+
+            }
+            this.images.find(findImages)
+      
+      this.$router.push('/editor')
     }
   },
   computed: {
-    questions() {
-      let result = this.$store.getters.questions.map((question) => {
-        let imageName = question.image.split('\\')[3];
-        let questionText = question.questionText;
-        // Добавить поиск в this.images по imageName
-        return {imageName, questionText}
-      });
-      return result
-    }
+    // questions() {
+    //   let result = this.$store.getters.questions.map((question) => {
+    //     let imageName = question.image.split('\\')[3];
+    //     let questionText = question.questionText;
+    //     // Добавить поиск в this.images по imageName
+    //     return {imageName, questionText}
+    //   });
+    //   return result
+    // }
   }
 };
 </script>
