@@ -16,16 +16,6 @@
               <v-row class="justify-center pr-6">{{question.questionText}}</v-row>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-<<<<<<< HEAD
-              <v-row justify="center">
-                <v-col cols="12" xs="12" md="3" class="my-auto grey lighten-3">
-                  <v-img
-                    :src="question.image"
-                    max-width="180"
-                    contain
-                    class="mx-auto"
-                  ></v-img>
-=======
               <v-row class="grey lighten-3">
                 <v-col cols="12" class="my-auto" style="position: relative; font-size:20px;">
                   <div class="hidden-sm-and-up">
@@ -57,7 +47,6 @@
                       class="mx-auto"
                     ></v-img>
                   </div>
->>>>>>> editing-quiz-list
                 </v-col>
               </v-row>
               <v-row>
@@ -105,16 +94,7 @@ export default {
   methods: {
     deleteQuestion(evt) {
       this.$store.commit("DELETE_QUESTION", evt.target.dataset.id);
-<<<<<<< HEAD
     }
-=======
-    },
-    replaceMissingImage(img) {
-      if (img === "") {
-        return defultImage;
-      } else return img;
-    },
->>>>>>> editing-quiz-list
   }
 };
 </script>
