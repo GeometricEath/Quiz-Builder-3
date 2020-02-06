@@ -131,9 +131,9 @@ export default {
   },
   methods: {
     add() {
-      if (!this.quize.image) this.quize.image = defultImage;
-      this.$store.commit("ADD_QUESTION", this.quize);
-      this.quize = {
+      if (!this.quiz.image) this.quiz.image = defultImage;
+      this.$store.commit("ADD_QUESTION", this.quiz);
+      this.quiz = {
         image: null,
         questionText: null,
         answers: [],
