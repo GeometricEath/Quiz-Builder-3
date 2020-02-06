@@ -19,7 +19,7 @@
               <v-row class="grey lighten-3">
                 <v-col cols="12" class="my-auto" style="position: relative; font-size:20px;">
                   <div class="hidden-sm-and-up">
-                    <v-img :src="question.image" contain class="mx-auto"></v-img>
+                    <v-img :src="question.image" max-width="280" contain class="mx-auto"></v-img>
                     <div class="text-center pt-3">
                       <v-icon class="primary--text">mdi-timer</v-icon>
                       {{question.timeout + 'сек.'}}
@@ -42,7 +42,7 @@
                     </div>
                     <v-img
                       :src="question.image"
-                      max-width="60%"
+                      max-width="260"
                       contain
                       class="mx-auto"
                     ></v-img>
