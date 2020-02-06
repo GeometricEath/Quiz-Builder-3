@@ -19,6 +19,14 @@ export default new Vuex.Store({
     ADD_IMAGE(state, payload) {
       state.images.push(payload);
     },
+    CHANGE_QUESTION(state, payload) {
+      state.questions.find((item) => {
+        if (item.id === payload.id) {
+          Object.assign(item, payload)
+          return true
+        }
+      })
+    },
     DELETE_QUESTION(state, id) {
       state.questions.splice(id, 1)
     },
@@ -28,6 +36,10 @@ export default new Vuex.Store({
   getters: {
     questions(state) {
       return state.questions
+    },
+    getQuestionByID: state => id => {
+      let result = state.questions.find(item => {return item.id === id})
+      return {...result, answers:[...result.answers]}
     },
     quizName(state) {
       return state.quizName

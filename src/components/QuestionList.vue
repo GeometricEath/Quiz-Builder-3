@@ -1,7 +1,7 @@
 <template>
   <v-content>
     <v-row class="justify-center">
-      <v-col xs="12" sm="10" md="8" lg="6">
+      <v-col cols="12">
         <v-expansion-panels>
           <v-expansion-panel
             v-for="(question) in questions"
@@ -16,6 +16,7 @@
               <v-row class="justify-center pr-6">{{question.questionText}}</v-row>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
+<<<<<<< HEAD
               <v-row justify="center">
                 <v-col cols="12" xs="12" md="3" class="my-auto grey lighten-3">
                   <v-img
@@ -24,8 +25,43 @@
                     contain
                     class="mx-auto"
                   ></v-img>
+=======
+              <v-row class="grey lighten-3">
+                <v-col cols="12" class="my-auto" style="position: relative; font-size:20px;">
+                  <div class="hidden-sm-and-up">
+                    <v-img :src="replaceMissingImage(question.image)" contain class="mx-auto"></v-img>
+                    <div class="text-center pt-3">
+                      <v-icon class="primary--text">mdi-timer</v-icon>
+                      {{question.timeout + 'сек.'}}
+                    </div>
+                  </div>
+                  <div class="hidden-xs-only">
+                    <div style="position:absolute; bottom:25px;">
+                      <v-progress-circular
+                        :value="100/26 * question.timeout"
+                        size="75"
+                        width="6"
+                        rotate="-90"
+                        color="blue"
+                      >
+                        <div class="mx-auto text-center">
+                          <v-icon>mdi-timer</v-icon>
+                          <p class="mb-0">{{question.timeout + 'с'}}</p>
+                        </div>
+                      </v-progress-circular>
+                    </div>
+                    <v-img
+                      :src="replaceMissingImage(question.image)"
+                      max-width="60%"
+                      contain
+                      class="mx-auto"
+                    ></v-img>
+                  </div>
+>>>>>>> editing-quiz-list
                 </v-col>
-                <v-col xs="12" md="9" class="px-0 px-md-2">
+              </v-row>
+              <v-row>
+                <v-col cols="12" class="px-0">
                   <v-list disabled dense>
                     <v-list-item-group v-model="question.trueAnswer" color="primary">
                       <v-list-item v-for="(answer, k) in question.answers" :key="k" class="px-2">
@@ -42,6 +78,7 @@
                 </v-col>
               </v-row>
               <div class="float-right">
+                <v-icon @click="$emit('showOverlay', question.id)">mdi-pencil-outline</v-icon>
                 <v-icon
                   :data-id="question.id"
                   @click="deleteQuestion"
@@ -68,7 +105,16 @@ export default {
   methods: {
     deleteQuestion(evt) {
       this.$store.commit("DELETE_QUESTION", evt.target.dataset.id);
+<<<<<<< HEAD
     }
+=======
+    },
+    replaceMissingImage(img) {
+      if (img === "") {
+        return defultImage;
+      } else return img;
+    },
+>>>>>>> editing-quiz-list
   }
 };
 </script>

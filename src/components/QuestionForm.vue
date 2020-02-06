@@ -1,6 +1,7 @@
 
 <template>
   <v-row>
+<<<<<<< HEAD
     <v-col xs="12" sm="10" md="8" lg="6">
       <v-expansion-panels v-model="panel">
         <v-expansion-panel expand focusable>
@@ -76,6 +77,84 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
+=======
+    <v-col cols="12">
+      <v-form ref="addQuestion">
+        <v-container>
+          <v-row no-gutters justify="center">
+            <v-col v-if="quiz.image" cols="12" class="my-auto grey lighten-3 py-4">
+              <v-img :src="quiz.image" max-width="280" contain class="mx-auto"></v-img>
+            </v-col>
+            <v-col>
+              <v-slider
+                v-model="quiz.timeout"
+                track-color="grey"
+                always-dirty
+                max="25"
+                thumb-label="always"
+              >
+                <template v-slot:prepend>
+                  <v-icon @click="decrement">mdi-minus</v-icon>
+                </template>
+
+                <template v-slot:append>
+                  <v-icon @click="increment">mdi-plus</v-icon>
+                </template>
+              </v-slider>
+              <v-file-input
+                @change="addImage"
+                accept="image/*"
+                label="Добавить изображение"
+                prepend-icon="mdi-camera-plus"
+                small-chips
+              ></v-file-input>
+              <v-textarea
+                v-model="quiz.questionText"
+                :rules="quesitonLenght"
+                :counter="120"
+                class="ml-8"
+                name="question"
+                label="Вопрос"
+                outlined
+                rows="1"
+                auto-grow
+                lazy-validation
+              ></v-textarea>
+              <v-textarea
+                v-for="(answer, id) in 4"
+                v-model="quiz.answers[id]"
+                :key="`answer${id}`"
+                :name="`answer${id}`"
+                :label="`Ответ${id+1}`"
+                :counter="60"
+                outlined
+                rows="1"
+                auto-grow
+                lazy-validation
+              >
+                <template v-slot:prepend>
+                  <v-icon
+                    v-if="quiz.trueAnswer === id"
+                    color="primary"
+                    style="cursor:pointer;"
+                  >mdi-checkbox-marked-circle</v-icon>
+                  <v-icon
+                    v-else
+                    @click="checked(id)"
+                    style="cursor:pointer;"
+                  >mdi-checkbox-blank-circle-outline</v-icon>
+                </template>
+              </v-textarea>
+              <v-card-actions class="d-flex align-center justify-center">
+                <v-btn v-if="!isEdeting" :disabled="!valid" @click="add" color="primary">Добавить</v-btn>
+                <v-btn v-else :disabled="!valid" @click="mutateQuestion" color="primary">Изменить</v-btn>
+                <v-btn @click="clearForm" class="lime lighten-4">Очистить</v-btn>
+              </v-card-actions>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-form>
+>>>>>>> editing-quiz-list
     </v-col>
   </v-row>
 </template>
@@ -87,12 +166,7 @@ export default {
   data() {
     return {
       panel: 0,
-      quize: {
-        image: "",
-        questionText: "",
-        answers: [],
-        trueAnswer: -1
-      },
+      quiz: this.question,
       quesitonLenght: [
         v => !!v || "Викторина без вопросов невозможна",
         v =>
@@ -104,15 +178,38 @@ export default {
       // ]
     };
   },
+  props: {
+    question: {
+      type: Object,
+      default: () => {
+        console.log("return default obj");
+        return {
+          image: "",
+          questionText: "",
+          answers: ["", "", "", ""],
+          trueAnswer: -1,
+          timeout: 15
+        };
+      }
+    },
+    isEdeting: {
+      type: Boolean,
+      default: false
+    }
+  },
   computed: {
     valid() {
-      return this.quize.questionText && this.quize.trueAnswer >= 0
-        ? true
-        : false;
+      return this.quiz.questionText && this.quiz.trueAnswer >= 0 ? true : false;
+    }
+  },
+  watch: {
+    question(newValue) {
+      this.quiz = newValue;
     }
   },
   methods: {
     add() {
+<<<<<<< HEAD
       if (!this.quize.image) this.quize.image = defultImage;
       this.$store.commit("ADD_QUESTION", this.quize);
       this.quize = {
@@ -122,13 +219,23 @@ export default {
         trueAnswer: -1
       };
       this.$refs.addQuestion.reset();
+=======
+      this.$store.commit("ADD_QUESTION", this.quiz);
+      this.clearForm();
+    },
+    mutateQuestion() {
+      this.$store.commit("CHANGE_QUESTION", this.quiz);
+      this.$emit("mutationIsDone");
+      this.clearForm();
+>>>>>>> editing-quiz-list
     },
     clearForm() {
-      this.quize = {
-        image: null,
-        questionText: null,
+      this.quiz = {
+        image: "",
+        questionText: "",
         answers: [],
-        trueAnswer: -1
+        trueAnswer: -1,
+        timeout: 15
       };
       this.$refs.addQuestion.reset();
     },
@@ -136,15 +243,21 @@ export default {
       if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
         let reader = new FileReader();
         reader.onload = () => {
-          this.quize.image = reader.result;
+          this.quiz.image = reader.result;
         };
         reader.readAsDataURL(file);
       } else {
-        this.quize.image = "";
+        this.quiz.image = "";
       }
     },
     checked(pyload) {
-      this.quize.trueAnswer = pyload;
+      this.quiz.trueAnswer = pyload;
+    },
+    decrement() {
+      this.quiz.timeout--;
+    },
+    increment() {
+      this.quiz.timeout++;
     }
   }
 };
