@@ -8,14 +8,16 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     quizName: 'QuizBuilder 3',
-    questions: [
-      
-    ]
+    questions: [],
+    images: []
   },
   mutations: {
     ADD_QUESTION(state, payload) {
       payload.id = state.questions.length
       state.questions.push(payload)
+    },
+    ADD_IMAGE(state, payload) {
+      state.images.push(payload);
     },
     DELETE_QUESTION(state, id) {
       state.questions.splice(id, 1)

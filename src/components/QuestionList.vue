@@ -30,7 +30,7 @@
                     <v-list-item-group v-model="question.trueAnswer" color="primary">
                       <v-list-item v-for="(answer, k) in question.answers" :key="k" class="px-2">
                         <v-list-item-icon class="mr-2 my-auto">
-                          <v-icon v-if="question.trueAnswer==k">mdi-checkbox-marked-circle</v-icon>
+                          <v-icon v-if="question.trueAnswer==k" color="primary">mdi-checkbox-marked-circle</v-icon>
                           <v-icon v-else>mdi-checkbox-blank-circle-outline</v-icon>
                         </v-list-item-icon>
                         <v-list-item-content>

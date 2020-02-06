@@ -4,7 +4,7 @@ import { EventBus } from '../plugins/EvenBus';
 import store from '../store'
 import JSZip from 'jszip'
 
-// import parser from './xmlparser'
+import parser from './xmlparser'
 const mime = require('mime/lite');
 
 EventBus.on('saveProject', saveProject);
@@ -64,13 +64,37 @@ function createImagePath(dataURL, id, quizName) {
     const imgPath = `don\\${quizName}\\${imgName}`
     return imgPath;
 }
+function readAsTextXML(file) {
+    let reader = new FileReader();
+    reader.onload = () => {
+        let quizData = parser.parseXML(reader.result);
+        // console.log(quizData);
+        quizData.questions.forEach(question => {
+            // console.log(readAsDataURL(question.image))
+            question.image = question.image.split('\\')[2]
+            store.commit('ADD_QUESTION', question);
+        });
+
+    }
+    reader.readAsText(file, 'windows-1251')
+}
+async function readAsDataURL(path) {
+    return new Promise((resolve, reject) =>{
+        let reader = new FileReader();
+        reader.onload = () => resolve(reader.result)
+        reader.onerror = (err) => reject(err)
+        reader.readAsDataURL(path);
+    })
+}
 
 export {
     saveProject,
     saveXmlAsFile,
     saveImageFromDataURL,
     createImagePath,
-    dataURLtoBlob
+    dataURLtoBlob,
+    readAsTextXML,
+    readAsDataURL
 }
 
 
