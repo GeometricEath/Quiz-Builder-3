@@ -16,20 +16,10 @@
               <v-row class="justify-center pr-6">{{question.questionText}}</v-row>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-<<<<<<< HEAD
-              <v-row justify="center">
-                <v-col cols="12" xs="12" md="3" class="my-auto grey lighten-3">
-                  <v-img
-                    :src="question.image"
-                    max-width="180"
-                    contain
-                    class="mx-auto"
-                  ></v-img>
-=======
               <v-row class="grey lighten-3">
                 <v-col cols="12" class="my-auto" style="position: relative; font-size:20px;">
                   <div class="hidden-sm-and-up">
-                    <v-img :src="replaceMissingImage(question.image)" contain class="mx-auto"></v-img>
+                    <v-img :src="question.image" contain class="mx-auto"></v-img>
                     <div class="text-center pt-3">
                       <v-icon class="primary--text">mdi-timer</v-icon>
                       {{question.timeout + 'сек.'}}
@@ -51,13 +41,12 @@
                       </v-progress-circular>
                     </div>
                     <v-img
-                      :src="replaceMissingImage(question.image)"
+                      :src="question.image"
                       max-width="60%"
                       contain
                       class="mx-auto"
                     ></v-img>
                   </div>
->>>>>>> editing-quiz-list
                 </v-col>
               </v-row>
               <v-row>
@@ -105,16 +94,7 @@ export default {
   methods: {
     deleteQuestion(evt) {
       this.$store.commit("DELETE_QUESTION", evt.target.dataset.id);
-<<<<<<< HEAD
     }
-=======
-    },
-    replaceMissingImage(img) {
-      if (img === "") {
-        return defultImage;
-      } else return img;
-    },
->>>>>>> editing-quiz-list
   }
 };
 </script>
