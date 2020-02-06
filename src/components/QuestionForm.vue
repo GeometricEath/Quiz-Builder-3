@@ -5,7 +5,7 @@
       <v-expansion-panels v-model="panel">
         <v-expansion-panel expand focusable>
           <v-expansion-panel-header>
-            <template v-slot:default="{ open }">
+            <template v-slot:default>
               <v-row no-gutters>
                 <v-col class="d-flex align-center justify-center">
                   <h2>Добавить вопрос</h2>
@@ -81,6 +81,8 @@
 </template>
 <script>
 /* eslint-disable no-console */
+// const defultImage = require("");
+import defultImage from '@/assets/defultImage.js'
 export default {
   data() {
     return {
@@ -111,6 +113,7 @@ export default {
   },
   methods: {
     add() {
+      if (!this.quize.image) this.quize.image = defultImage;
       this.$store.commit("ADD_QUESTION", this.quize);
       this.quize = {
         image: null,

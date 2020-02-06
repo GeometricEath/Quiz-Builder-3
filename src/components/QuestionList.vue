@@ -19,7 +19,7 @@
               <v-row justify="center">
                 <v-col cols="12" xs="12" md="3" class="my-auto grey lighten-3">
                   <v-img
-                    :src="replaceMissingImage(question.image)"
+                    :src="question.image"
                     max-width="180"
                     contain
                     class="mx-auto"
@@ -56,7 +56,6 @@
   </v-content>
 </template>
 <script>
-const defultImage = require("@/assets/no-image-icon.png");
 export default {
   data() {
     return {};
@@ -69,11 +68,6 @@ export default {
   methods: {
     deleteQuestion(evt) {
       this.$store.commit("DELETE_QUESTION", evt.target.dataset.id);
-    },
-    replaceMissingImage(img) {
-      if (img === "") {
-        return defultImage;
-      } else return img;
     }
   }
 };
