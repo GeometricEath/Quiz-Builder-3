@@ -20,7 +20,7 @@ class ParseXmlToQuiz {
             let id = 0;
             let questions = json.map((question) => {
                 let newQestion = {};
-                newQestion.trueAnswer = question.$.answer;
+                newQestion.trueAnswer = question.$.answer-1;
                 newQestion.timeout = question.$.timeout;
                 newQestion.image = question.picture[0];
                 newQestion.questionText = question.text[0];

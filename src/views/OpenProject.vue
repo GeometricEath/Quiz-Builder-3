@@ -44,6 +44,8 @@ export default {
     return {
       itemsInForm: [],
       images: [],
+      quize: {},
+      xmlFind: false
     };
   },
   methods: {
@@ -52,6 +54,7 @@ export default {
       this.itemsInForm.forEach(file => {
         if (file.type === "text/xml") {
           readAsTextXML(file);
+          this.xmlFind = true;
         }
         if (file.type === "image/jpeg" || file.type === "image/png") {
           let imageName = file.name;
@@ -62,22 +65,27 @@ export default {
       });
       this.itemsInForm = [];
     },
-    prepareQuiz(){
-            function findImages (element, index, array){
-              images.forEach(img =>{
-                if (element.imageName == img.imageName)
+    prepareQuiz() {
+      if (!this.xmlFind) return;
+      let questions = this.$store.getters.questions;
+      questions.forEach(element => {
+        // console.log(element)
+        this.images.forEach((img, index, array) => {
+          // console.log(img.imageName + " элемент в xml " + element.image);
+          if (element.image == img.imageName) {
+            element.image = img.imageURL;
+            array.splice(index, 1);
+          }
+        });
+      });
 
-              });
-
-            }
-            this.images.find(findImages)
-      
-      this.$router.push('/editor')
+      this.$router.push("/editor");
     }
   },
   computed: {
     // questions() {
-    //   let result = this.$store.getters.questions.map((question) => {
+    //   let result = this.$store.getters.questions
+    //   .map((question) => {
     //     let imageName = question.image.split('\\')[3];
     //     let questionText = question.questionText;
     //     // Добавить поиск в this.images по imageName

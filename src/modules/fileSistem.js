@@ -71,7 +71,7 @@ function readAsTextXML(file) {
         // console.log(quizData);
         quizData.questions.forEach(question => {
             // console.log(readAsDataURL(question.image))
-            question.image = question.image.split('\\')[3]
+            question.image = question.image.split('\\')[2]
             store.commit('ADD_QUESTION', question);
         });
 
