@@ -6,7 +6,7 @@
       <v-btn text fab to="/">
         <v-icon>mdi-home</v-icon>
       </v-btn>
-      <v-btn text fab @click="save">
+      <v-btn text fab to='/save-project'>
         <v-icon>mdi-content-save</v-icon>
       </v-btn>
     </v-toolbar-items>
@@ -19,11 +19,6 @@
 export default {
   data() {
     return {};
-  },
-  methods: {
-    save() {
-      this.$bus.emit("saveProject");
-    }
   }
 };
 </script>
