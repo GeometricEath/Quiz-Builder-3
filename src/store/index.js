@@ -30,6 +30,10 @@ export default new Vuex.Store({
     DELETE_QUESTION(state, id) {
       state.questions.splice(id, 1)
     },
+    RESET_STORE(state) {
+      state.questions = [];
+      state.images = []
+    },
   },
   actions: {
   },
